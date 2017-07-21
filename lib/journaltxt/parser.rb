@@ -4,13 +4,12 @@ module Journaltxt
 
 class Parser
 
-  def self.parse( text, name: nil )   ## convenience helper
-    self.new( text, name: name ).parse
+  def self.parse( text )   ## convenience helper
+    self.new( text ).parse
   end
 
-  def initialize( text, name: nil )
+  def initialize( text )
     @text = text
-    @name = name
   end
 
   def parse
@@ -38,16 +37,17 @@ class Parser
     ##   all others requireÖ
     ##      day
 
-    last_date = nil
+    last_page_date = nil
 
     items = items.each_with_index.map do |item,i|
-      h = YAML.load( item[0] )
-      pp h
+      page_meta   = YAML.load( item[0] )  ## convert to hash (from yaml text)
+      pp page_meta
+      page_content = item[1]
 
       ## remove all (short-cut) date entries
-      year  = h.delete( 'year' )
-      month = h.delete( 'month' )
-      day   = h.delete( 'day' )
+      year  = page_meta.delete( 'year' )
+      month = page_meta.delete( 'month' )
+      day   = page_meta.delete( 'day' )
 
       puts "  year: >#{year}< : #{year.class.name}, month: >#{month}< : #{month.class.name}, day: >#{day}< : #{day.class.name}"
 
@@ -56,10 +56,11 @@ class Parser
 
       ##  note: assume year is always a number
       if year.nil?
-         if last_date
-           year = last_date.year
+         if last_page_date
+           year = last_page_date.year
          else
-           puts "** year entry required for first entry / meta data block"
+           ### fix/todo: throw format/parse exception!!
+           puts "** year entry required / expected for first entry / meta data block"
            exit 1
          end
       end
@@ -72,7 +73,8 @@ class Parser
          puts "  day:   >#{day}< : #{day.class.name}"
       end
 
-      if day.nil?
+      if day.nil?   ### fix/add - check if day >0 and< 31 why? why not??
+        ### fix/todo: throw format/parse exception!!
         puts "** day entry required in meta data block"
         exit 1
       end
@@ -82,40 +84,35 @@ class Parser
         puts "  trying to convert month to int..."
         ## for now let stdlib handle conversion
         ##   supports abbreviated names (e.g. Jan) and full names (e.g. January)
+
+        ## todo/fix: check what happens if montn is invalid/unknow
+        ##    returns nil? throws exception?
         date_month = Date.parse( "#{year}/#{month}/#{day}" )
         month = date_month.month
         puts "  month: >#{month}< : #{month.class.name}"
       end
 
       if month.nil?
-        if last_date
-          month = last_date.month
+        if last_page_date
+          month = last_page_date.month
         else
+          ### fix/todo: throw format/parse exception!!
           puts "** month entry required for first entry / meta data block"
           exit 1
         end
       end
 
 
-      date = Date.new( year, month, day )
-      last_date = date
-      h['date']  = date
+      page_date = Date.new( year, month, day )
+      last_page_date = page_date
 
-
-      ## add title
-      ##   todo/fix:  check if title exists? do NOT overwrite - why? why not?
-      title = ''
-      if @name
-        title << "#{@name} - "
-      end
-      title << "Day #{i+1} - "
-      title << "#{date.strftime('%a, %-d %b')}"
-
-      h['title'] = title
+      ## todo:check if date exists? possible?
+      ##     issue warning or something - will get replaced - why? why not?
+      page_meta['date']  = page_date
 
       ## pp YAML.dump( h )
 
-      [h, item[1]]
+      [page_meta, page_content]
     end
     items
   end  # method parse

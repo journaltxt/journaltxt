@@ -9,10 +9,16 @@ require 'helper'
 
 class TestParser < MiniTest::Test
 
-  def test_journal
+  def xxx_test_journal
     text = read_text( 'journal' )
 
-    Journaltxt.build( text, name: 'Journal', outpath: './tmp' )
+    Journaltxt.build( text, name: 'journal', outpath: './tmp' )
+
+    assert true
+  end
+
+  def test_journal_ii
+    Journaltxt.build_file( "#{Journaltxt.root}/test/data/journal.txt", outpath: './tmp', date: false )
 
     assert true
   end
