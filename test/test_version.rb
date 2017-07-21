@@ -10,7 +10,9 @@ require 'helper'
 class TestVersion < MiniTest::Test
 
   def test_version
-    puts Journaltxt::Version
+    puts Journaltxt.version
+    puts Journaltxt::VERSION
+
     assert true
   end
 

@@ -10,7 +10,7 @@ require 'textutils'
 
 
 ## our own code
-require 'feedtxt'
+require 'journaltxt'
 
 
 
@@ -18,6 +18,6 @@ LogUtils::Logger.root.level = :debug
 
 
 def read_text( name )
-  text = File.read( "#{Feedtxt.root}/test/feeds/#{name}.txt" )
+  text = File.open( "#{Journaltxt.root}/test/data/#{name}.txt", 'r:bom|utf-8' ).read
   text
 end
