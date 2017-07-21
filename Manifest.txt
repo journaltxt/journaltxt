@@ -2,7 +2,14 @@ HISTORY.md
 Manifest.txt
 README.md
 Rakefile
+bin/jo
+bin/journaltxt
 lib/journaltxt.rb
+lib/journaltxt/parser.rb
 lib/journaltxt/version.rb
+test/data/journal.txt
+test/data/vienna.txt
 test/helper.rb
+test/test_build.rb
+test/test_parser.rb
 test/test_version.rb

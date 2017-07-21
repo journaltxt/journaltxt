@@ -14,6 +14,8 @@ class TestVersion < MiniTest::Test
     puts Journaltxt::VERSION
 
     assert true
+
+    ## Journaltxt.process( ['--help'] )
   end
 
 end # class TestVersion

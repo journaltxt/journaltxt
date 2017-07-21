@@ -18,7 +18,7 @@ class TestParser < MiniTest::Test
   end
 
   def test_journal_ii
-    Journaltxt.build_file( "#{Journaltxt.root}/test/data/journal.txt", outpath: './tmp', date: false )
+    Journaltxt.build_file( "#{Journaltxt.root}/test/data/journal.txt", outpath: './tmp' )
 
     assert true
   end
@@ -26,7 +26,7 @@ class TestParser < MiniTest::Test
   def test_vienna
     text = read_text( 'vienna' )
 
-    Journaltxt.build( text, name: 'Vienna', outpath: './tmp' )
+    Journaltxt.build( text, name: 'Vienna', outpath: './tmp', date: false )
 
     assert true
   end

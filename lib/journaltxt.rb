@@ -40,15 +40,15 @@ module Journaltxt
       end
 
       ## use --outdir or outputdir or something or output
-      opts.on("-o", "--output=PATH", "Output path (default: #{DEFAULTS['outpath']})") do |outpath|
+      opts.on("-o", "--output=PATH", "Output path (default: #{DEFAULTS[:outpath]})") do |outpath|
         config[:outpath] = outpath
       end
 
-      opts.on("-n", "--name=NAME", "Journal name (default: #{DEFAULTS['name']})") do |name|
+      opts.on("-n", "--name=NAME", "Journal name (default: #{DEFAULTS[:name]})") do |name|
         config[:name] = name
       end
 
-      opts.on("--[no-]date", "Add date to page title (default: #{DEFAULTS['date']})") do |date|
+      opts.on("--[no-]date", "Add date to page title (default: #{DEFAULTS[:date]})") do |date|
         config[:date] = date
       end
 
@@ -64,6 +64,10 @@ module Journaltxt
     pp config
     puts ":: Args :::"
     pp args
+
+    if args.size == 0   ## default to journal.txt  if no filename passed along
+      args << 'journal.txt'
+    end
 
     args.each do |arg|
       build_file( arg, config )
@@ -128,7 +132,16 @@ module Journaltxt
        path << "#{outpath}/#{page_date}"
        path << "-#{name.downcase}.md"      ## note: journal gets auto-added to the name too
 
-       puts "Writing entry #{i+1} >#{page_title}< to #{path}..."
+       ##
+       ##  check if path exits?
+       page_root = File.dirname( File.expand_path( path ) )
+       unless File.directory?( page_root )
+         puts "   make (missing) output dirs >#{page_root}...<"
+         FileUtils.makedirs( page_root )
+       end
+
+
+       puts "Writing entry #{i+1}/#{items.size} >#{page_title}< to #{path}..."
 
        ### todo:
        ##   add a comment in the yaml meta data block e.g.

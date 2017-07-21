@@ -5,7 +5,7 @@ Hoe.spec 'journaltxt' do
 
   self.version = Journaltxt::VERSION
 
-  self.summary = "journaltxt - reads Journal.TXT and writes out a blog (w/ Jekyll posts etc.)"
+  self.summary = "journaltxt - reads Journal.TXT and writes out (auto-builds) a blog (w/ Jekyll posts etc.)"
   self.description = summary
 
   self.urls    = ['https://github.com/journaltxt/journaltxt']
