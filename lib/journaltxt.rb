@@ -8,6 +8,7 @@ require 'date'
 require 'time'
 require 'pp'
 require 'optparse'
+require 'fileutils'    ## mkdirs
 
 
 # our own code

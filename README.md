@@ -87,6 +87,20 @@ That's it.
 **See the live auto-built [Vienna.TXT Blog »](https://journaltxt.github.io/blog)**
 
 
+Tip: If you run the Journal.TXT command line tool in
+the folder with a single-file in the Journal.TXT format named `journal.txt`
+than you can use:
+
+```
+$ journaltxt
+    -or-
+$ jo
+```
+
+Happy writing. Happy publishing.
+
+
+
 ## Bonus: Add Your Perfect Day!
 
 Berlin.TXT, Munich.TXT, Salzburg.TXT, Paris.TXT, London.TXT, Rome.TXT, New York.TXT, Austin.TXT, Tornoto.TXT, Calgary.TXT,
